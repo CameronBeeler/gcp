@@ -32,4 +32,4 @@ jobs:
       - name: Set GCP Credentials
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        run: echo $GOOGLE_APPLICATION_CREDENTIALS > key.json
+        run: echo "The Google credentials are ${GOOGLE_APPLICATION_CREDENTIALS}"
