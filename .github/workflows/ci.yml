@@ -15,5 +15,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Run a script
         run: echo "Hello, world!"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install CDKTF and Dependencies
+        run: |
+          npm install -g cdktf-cli
+          npm install
+
+      - name: Set GCP Credentials
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        run: echo $GOOGLE_APPLICATION_CREDENTIALS > key.json
