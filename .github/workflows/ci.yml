@@ -29,12 +29,14 @@ jobs:
           npm install -g cdktf-cli
           npm install
 
-      # Step 2: Set up Google Cloud SDK
-      - name: Install Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          version: 'latest'
-          service_account_key: ${{ secrets.GCP_KEY }}
+          credentials_json: '${{ secrets.GCP_KEY }}'
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
           project_id: 'sonorous-pact-445620-m2'
 
       - name: Verify GCP Access
