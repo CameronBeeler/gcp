@@ -19,6 +19,9 @@ jobs:
       - name: Run a script
         run: echo "Hello, world!"
 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -39,5 +42,18 @@ jobs:
         with:
           project_id: 'sonorous-pact-445620-m2'
 
+      # Extract Project ID from credentials_json
+      - name: Extract Project ID
+        id: extract-project
+        run: |
+          echo "Extracting project ID from credentials..."
+          echo "PROJECT_ID=$(echo '${{ secrets.GCP_KEY }}' | jq -r '.project_id')" >> $GITHUB_ENV
+
+      - name: Enable Cloud Resource Manager API
+        run: |
+          gcloud services enable cloudresourcemanager.googleapis.com --project= '${{ env.PROJECT_ID }}'
+
       - name: Verify GCP Access
-        run: gcloud projects list
+        run: |
+          gcloud projects list
+          gcloud projects describe ${{ env.PROJECT_ID }}
