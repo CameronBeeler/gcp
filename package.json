@@ -1,5 +1,5 @@
 {
-  "name": "gcp",
+  "name": "MyNetworkStack",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
@@ -22,6 +22,7 @@
   "dependencies": {
     "@cdktf/provider-github": "14.4.0",
     "@cdktf/provider-google": "^14.13.1",
+    "@google-cloud/compute": "^4.9.0",
     "constructs": "^10.4.2"
   },
   "devDependencies": {
