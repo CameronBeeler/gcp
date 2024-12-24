@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@cdktf/provider-github": "14.4.0",
-    "@cdktf/provider-google": "14.13.1",
+    "@cdktf/provider-google": "^14.13.1",
     "constructs": "^10.4.2"
   },
   "devDependencies": {

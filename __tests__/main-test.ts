@@ -1,89 +1,37 @@
-// Copyright (c) HashiCorp, Inc
-// SPDX-License-Identifier: MPL-2.0
-import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
-// import { Testing } from "cdktf";
+import { App, TerraformStack } from "cdktf";
+import { GoogleProvider } from "@cdktf/provider-google/lib/provider";
+import { ComputeNetwork } from "@cdktf/provider-google/lib/compute-network"
+import {ComputeSubnetwork } from "@cdktf/provider-google/lib/compute-subnetwork"
 
-describe("My CDKTF Application", () => {
-  // The tests below are example tests, you can find more information at
-  // https://cdk.tf/testing
-  it.todo("should be tested");
+class MyNetworkStack extends TerraformStack {
+  constructor(scope: App, id: string) {
+    super(scope, id);
 
-  // // All Unit tests test the synthesized terraform code, it does not create real-world resources
-  // describe("Unit testing using assertions", () => {
-  //   it("should contain a resource", () => {
-  //     // import { Image,Container } from "./.gen/providers/docker"
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResource(Container);
+    const project = process.env.PROJECT_ID || "sonorous-pact-445620-m2";
+    const region = process.env.PROJECT_REGION || "us-central1";
 
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
-  //   });
-  // });
+    // Set up Google Cloud provider
+    new GoogleProvider(this, "Google", {
+      project: project,
+      region: region
+    });
 
-  // describe("Unit testing using snapshots", () => {
-  //   it("Tests the snapshot", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
+    // Create VPC Network
+    const vpcNetwork = new ComputeNetwork(this, "MyVpc", {
+      name: "my-vpc-network",
+      autoCreateSubnetworks: false, // Manual subnet creation
+    });
 
-  //     new TestProvider(stack, "provider", {
-  //       accessKey: "1",
-  //     });
+    // Create Subnet
+    new ComputeSubnetwork(this, "MySubnet", {
+      name: "my-vpc-subnet",
+      ipCidrRange: "10.0.1.0/24",  // Replace with your desired CIDR
+      network: vpcNetwork.id,      // Link to VPC
+      region: region,       // Adjust region as needed
+    });
+  }
+}
 
-  //     new TestResource(stack, "test", {
-  //       name: "my-resource",
-  //     });
-
-  //     expect(Testing.synth(stack)).toMatchSnapshot();
-  //   });
-
-  //   it("Tests a combination of resources", () => {
-  //     expect(
-  //       Testing.synthScope((stack) => {
-  //         new TestDataSource(stack, "test-data-source", {
-  //           name: "foo",
-  //         });
-
-  //         new TestResource(stack, "test-resource", {
-  //           name: "bar",
-  //         });
-  //       })
-  //     ).toMatchInlineSnapshot();
-  //   });
-  // });
-
-  // describe("Checking validity", () => {
-  //   it("check if the produced terraform configuration is valid", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toBeValidTerraform();
-  //   });
-
-  //   it("check if this can be planned", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toPlanSuccessfully();
-  //   });
-  // });
-});
+const app = new App();
+new MyNetworkStack(app, "MyNetworkStack");
+app.synth();

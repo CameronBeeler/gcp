@@ -48,6 +48,7 @@ jobs:
         run: |
           echo "Extracting project ID from credentials..."
           echo "PROJECT_ID=$(echo '${{ secrets.GCP_KEY }}' | jq -r '.project_id')" >> $GITHUB_ENV
+          echo "PROJECT_REGION=us-central1" >> $GITHUB_ENV
 
       - name: Enable Cloud Resource Manager API
         run: |
@@ -57,3 +58,8 @@ jobs:
         run: |
           gcloud projects list
           gcloud projects describe ${{ env.PROJECT_ID }}
+
+      - name: Build and Deploy
+        run: |
+          npm run build
+          cdktf deploy --auto-approve
