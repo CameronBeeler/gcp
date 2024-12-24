@@ -34,13 +34,13 @@ class MyNetworkStack extends TerraformStack {
       region: region,       // Adjust region as needed
     });
 
-  new TerraformOutput(this, "VpcNetworkName", {
-    value: vpcNetwork.name,
-  });
+//   new TerraformOutput(this, "VpcNetworkName", {
+//     value: vpcNetwork.name,
+//   });
   
-  new TerraformOutput(this, "VpcSubnetName", {
-    value: "my-vpc-subnet",
-  });
+//   new TerraformOutput(this, "VpcSubnetName", {
+//     value: "my-vpc-subnet",
+//   });
   }
 }
 

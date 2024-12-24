@@ -1,0 +1,34 @@
+name: Destroy Resources
+
+on:
+  workflow_dispatch: # Manual trigger for destruction
+    inputs:
+      confirm_destroy:
+        description: "Type 'destroy' to confirm resource destruction"
+        required: true
+
+jobs:
+  destroy:
+    if: ${{ inputs.confirm_destroy == 'destroy' }} # Confirmation check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Adjust if needed based on your Node.js version requirement
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Initialize CDKTF
+        run: cdktf get
+
+      - name: Destroy Resources
+        run: cdktf destroy --auto-approve
