@@ -26,7 +26,7 @@ class MyNetworkStack extends TerraformStack {
     new ComputeSubnetwork(this, "MySubnet", {
       name: "my-vpc-subnet",
       ipCidrRange: "10.0.1.0/24",  // Replace with your desired CIDR
-      network: vpcNetwork.id,      // Link to VPC
+      network: vpcNetwork.selfLink,      // Link to VPC
       region: region,       // Adjust region as needed
     });
   }
