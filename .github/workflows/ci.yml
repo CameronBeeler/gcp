@@ -51,7 +51,7 @@ jobs:
 
       - name: Enable Cloud Resource Manager API
         run: |
-          gcloud services enable cloudresourcemanager.googleapis.com --project= '${{ env.PROJECT_ID }}'
+          gcloud services enable cloudresourcemanager.googleapis.com --project='${{ env.PROJECT_ID }}'
 
       - name: Verify GCP Access
         run: |
