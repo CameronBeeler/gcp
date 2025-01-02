@@ -1,19 +1,17 @@
-name: Create Resources
+name: Destroy Resources
 
 on:
-  workflow_dispatch: # Manual trigger for creation
+  workflow_dispatch: # Manual trigger for destruction
     inputs:
-      confirm_create:
-        description: "Type 'create' to confirm cdktf resource creation"
+      confirm_destroy:
+        description: "Type 'destroy' to confirm resource destruction"
         required: true
 
 jobs:
-  create:
+  destroy:
     if: ${{ inputs.confirm_destroy == 'destroy' }} # Confirmation check
     runs-on: ubuntu-latest
 
-  job1:
-    runs-on: ubuntu-latest
     steps:
       - name:  Agent Config
         id:  agent-setup
@@ -27,4 +25,4 @@ jobs:
       - name: Build and Deploy
         run: |
           npm run build
-          cdktf deploy --auto-approve
+          cdktf destroy --auto-approve

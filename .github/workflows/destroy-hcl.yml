@@ -1,19 +1,17 @@
-name: Create Resources
+name: Destroy HCL created Resources
 
 on:
-  workflow_dispatch: # Manual trigger for creation
+  workflow_dispatch: # Manual trigger for destruction
     inputs:
-      confirm_create:
-        description: "Type 'create' to confirm cdktf resource creation"
+      confirm_destroy:
+        description: "Type 'destroy' to confirm resource destruction"
         required: true
 
 jobs:
-  create:
+  destroy:
     if: ${{ inputs.confirm_destroy == 'destroy' }} # Confirmation check
     runs-on: ubuntu-latest
 
-  job1:
-    runs-on: ubuntu-latest
     steps:
       - name:  Agent Config
         id:  agent-setup
@@ -24,7 +22,6 @@ jobs:
         echo "Project ID: ${{ steps.agent-config.outputs.project_id }}"
         echo "Project Region: ${{ steps.agent-config.outputs.project_region }}"
 
-      - name: Build and Deploy
+      - name: Build and Deploy with HCL TF
         run: |
-          npm run build
-          cdktf deploy --auto-approve
+          terraform destroy --auto-approve
