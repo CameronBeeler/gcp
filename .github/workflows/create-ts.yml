@@ -1,4 +1,4 @@
-name: Create GCP Resources from workflow in typescript cdktf
+name: CDKTF typescript Create GH-A Workflows
 
 on:
   workflow_dispatch: # Manual trigger for creation

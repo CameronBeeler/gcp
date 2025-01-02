@@ -1,4 +1,4 @@
-name: exploring GitHub Actions CI Pipelines
+name: HCL Terraform Create GH-A CI/CD
 
 # Trigger the workflow on push or pull request events
 on:
@@ -10,15 +10,16 @@ on:
       - main
 
 jobs:
-  job1:
+  hcl-tf-create:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name:  Agent Config
         id:  agent-setup
-        uses: ./.github/workflows/agent-config.yml
+        uses: ./gcp/.github/workflows/agent-config.yml
 
       - name: Use Project ID and Region
         run: |
