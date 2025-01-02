@@ -1,8 +1,8 @@
-// import { TerraformOutput } from "cdktf";
 import { App, TerraformStack } from "cdktf";
 import { GoogleProvider } from "@cdktf/provider-google/lib/provider";
 import { ComputeNetwork } from "@cdktf/provider-google/lib/compute-network"
 import {ComputeSubnetwork } from "@cdktf/provider-google/lib/compute-subnetwork"
+// import { TerraformOutput } from "cdktf";
 
 class MyNetworkStack extends TerraformStack {
   constructor(scope: App, id: string) {

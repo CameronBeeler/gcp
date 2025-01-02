@@ -50,13 +50,11 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: latest
-
-      - name: Install CDKTF and Dependencies
-        run: |
-          npm install -g cdktf-cli
-          npm install
-
-      - name: Build and Deploy
-        run: |
-          npm run build
-          cdktf deploy --auto-approve
+       
+      - name: Initialize Terraform
+        run: terraform init
+        working-directory: ./terraform
+  
+      - name: Apply Terraform
+        run: terraform apply -auto-approve
+        working-directory: ./terraform
