@@ -19,8 +19,8 @@ jobs:
 
       - name: Use Project ID and Region
         run: |
-        echo "Project ID: ${{ steps.agent-config.outputs.project_id }}"
-        echo "Project Region: ${{ steps.agent-config.outputs.project_region }}"
+          echo "Project ID: ${{ steps.agent-config.outputs.project_id }}"
+          echo "Project Region: ${{ steps.agent-config.outputs.project_region }}"
 
       - name: Build and Deploy with HCL TF
         run: |
