@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name:  Agent Config
+      - name:  Shared Agent Setup
         id:  agent-setup
         uses: ./.github/workflows/agent-config.yml
 
       - name: Use Project ID and Region
         run: |
-        echo "Project ID: ${{ steps.agent-config.outputs.project_id }}"
-        echo "Project Region: ${{ steps.agent-config.outputs.project_region }}"
+          echo "Project ID: ${{ steps.agent-setup.outputs.project_id }}"
+          echo "Project Region: ${{ steps.agent-setup.outputs.project_region }}"
 
       - name: Build and Deploy
         run: |
