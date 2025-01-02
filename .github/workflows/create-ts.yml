@@ -1,4 +1,4 @@
-name: Create Resources
+name: Create GCP Resources from workflow in typescript cdktf
 
 on:
   workflow_dispatch: # Manual trigger for creation
@@ -12,8 +12,6 @@ jobs:
     if: ${{ inputs.confirm_create == 'create' }} # Confirmation check
     runs-on: ubuntu-latest
 
-  job1:
-    runs-on: ubuntu-latest
     steps:
       - name:  Agent Config
         id:  agent-setup
