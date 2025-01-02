@@ -9,7 +9,7 @@ on:
 
 jobs:
   create:
-    if: ${{ inputs.confirm_destroy == 'destroy' }} # Confirmation check
+    if: ${{ inputs.confirm_create == 'create' }} # Confirmation check
     runs-on: ubuntu-latest
 
   job1:
