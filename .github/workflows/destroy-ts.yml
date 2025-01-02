@@ -1,4 +1,4 @@
-name: Destroy Resources
+name: Destroy TS CDKTF Resources
 
 on:
   workflow_dispatch: # Manual trigger for destruction
