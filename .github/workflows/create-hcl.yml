@@ -1,16 +1,16 @@
 name: HCL Terraform Create GH-A CI/CD
 
-# Trigger the workflow on push or pull request events
+# Trigger the workflow on workflow request only
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch: # Manual trigger for creation
+    inputs:
+      confirm_create:
+        description: "Type 'create' to confirm HCL TF resource creation"
+        required: true
 
 jobs:
-  build-job:
+  create:
+    if: ${{ inputs.confirm_create == 'create' }} # Confirmation check
     runs-on: ubuntu-latest
 
     steps:
