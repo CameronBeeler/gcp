@@ -66,4 +66,4 @@ jobs:
 
       - name: Delete Terraform State File
         run: |
-          gsutil rm gs://terraform-gcp-githubactions-state/cdktf-ts-${{ env.PROJECT_ID }}/default.tfstate
+          gsutil rm -r gs://terraform-gcp-githubactions-state/cdktf-ts-${{ env.PROJECT_ID }}
