@@ -21,7 +21,7 @@ class MyNetworkStack extends TerraformStack {
     });
 
     new GcsBackend(this, {
-      bucket: "terraform-hcl-gcp-githubactions-state",
+      bucket: "terraform-gcp-githubactions-state",
       prefix: "cdktf-ts-sonorous-pact-445620-m2/",
     });
 
