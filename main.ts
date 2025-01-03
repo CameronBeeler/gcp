@@ -1,4 +1,4 @@
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformStack, GcsBackend } from "cdktf";
 import { GoogleProvider } from "@cdktf/provider-google/lib/provider";
 import { ComputeNetwork } from "@cdktf/provider-google/lib/compute-network"
 import {ComputeSubnetwork } from "@cdktf/provider-google/lib/compute-subnetwork"
@@ -18,6 +18,11 @@ class MyNetworkStack extends TerraformStack {
     new GoogleProvider(this, "Google", {
       project: project,
       region: region
+    });
+
+    new GcsBackend(this, {
+      bucket: "terraform-hcl-gcp-githubactions-state",
+      prefix: "cdktf-ts-sonorous-pact-445620-m2/",
     });
 
     // Create VPC Network
