@@ -76,4 +76,4 @@ jobs:
 
       - name: Delete Terraform State File
         run: |
-          gsutil rm gs://terraform-hcl-gcp-githubactions-state/hcl-${{ env.PREFIX }}-${{ env.PROJECT_ID }}/default.tfstate
+          gsutil rm gs://terraform-gcp-githubactions-state/hcl-${{ env.PREFIX }}-${{ env.PROJECT_ID }}/default.tfstate
