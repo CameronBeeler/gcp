@@ -40,9 +40,6 @@ jobs:
           echo "Extracting project ID from credentials..."
           echo "PROJECT_ID=$(echo '${{ secrets.GCP_KEY }}' | jq -r '.project_id')" >> $GITHUB_ENV
           echo "PROJECT_REGION=us-central1" >> $GITHUB_ENV
-        outputs:
-          project_id: ${{ steps.extract-project.outputs.PROJECT_ID }}
-          project_region: ${{ steps.extract-project.outputs.PROJECT_REGION }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
