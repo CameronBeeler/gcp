@@ -8,7 +8,7 @@ terraform {
   }
   backend "gcs" {
     bucket = "terraform-hcl-gcp-githubactions-state"
-    prefix = "terraform/hcl-camstest-sonorous-pact-445620-m2"
+    prefix = "hcl-camstest-sonorous-pact-445620-m2"
   }
 }
 
