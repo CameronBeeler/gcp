@@ -28,6 +28,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: latest
+          terraform_wrapper: false 
 
       - name: Install CDKTF and Dependencies
         run: |
