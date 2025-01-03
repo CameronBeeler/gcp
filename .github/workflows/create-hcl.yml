@@ -63,7 +63,7 @@ jobs:
       - name: Configure input variables for Terraform
         run: |
           echo "project_id = \"${{ env.PROJECT_ID }}\"" > terraform.tfvars
-          echo "region = \"${{ env.PROJECT_REGION }}\"" >> terraform.tfvars 
+          echo "region = \"${{ env.PROJECT_REGION }}\"" >> terraform.tfvars
         working-directory: ${{ github.workspace }}/terraform
 
       - name: Initialize Terraform
