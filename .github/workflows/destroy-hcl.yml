@@ -56,6 +56,15 @@ jobs:
           gcloud services enable cloudresourcemanager.googleapis.com --project='${{ env.PROJECT_ID }}'
           gcloud services enable compute.googleapis.com --project='${{ env.PROJECT_ID }}'
 
+      - name: Initialize Terraform
+        run: terraform init
+        working-directory: ./terraform
+  
+      - name: Configure input variables for Terraform
+        run: |
+          echo "project_id = \"${{ env.PROJECT_ID }}\"" > ./terraform/terraform.tfvars
+          echo "region = \"${{ env.PROJECT_REGION }}\"" >> ./terraform/terraform.tfvars 
+
       - name: Build and Deploy with HCL TF
         run: |
-          terraform destroy --auto-approve
+          terraform destroy -var-file=terraform.tfvars --auto-approve
