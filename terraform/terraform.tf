@@ -6,7 +6,10 @@ terraform {
       version = ">= 4.0.0"
     }
   }
-  backend "gcs" {}
+  backend "gcs" {
+    bucket = "terraform-hcl-gcp-githubactions-state"
+    prefix = "terraform/hcl-camstest-sonorous-pact-445620-m2"
+  }
 }
 
 provider "google" {

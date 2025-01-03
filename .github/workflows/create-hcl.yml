@@ -64,12 +64,10 @@ jobs:
         run: |
           echo "project_id = \"${{ env.PROJECT_ID }}\"" > terraform.tfvars
           echo "region = \"${{ env.PROJECT_REGION }}\"" >> terraform.tfvars 
-          echo "bucket = \"terraform-hcl-gcp-githubactions-state\"" >> backend.tfvars
-          echo "prefix = \"hcl-${{env.PREFIX }}-${{ env.PROJECT_ID }}.tfstate\"" >> backend.tfvars
         working-directory: ./terraform
 
       - name: Initialize Terraform
-        run: terraform init -backend-config=backend.tfvars
+        run: terraform init
         working-directory: ./terraform
 
       - name: Apply Terraform
