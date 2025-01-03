@@ -65,6 +65,7 @@ jobs:
         run: |
           echo "project_id = \"${{ env.PROJECT_ID }}\"" > ./terraform/terraform.tfvars
           echo "region = \"${{ env.PROJECT_REGION }}\"" >> ./terraform/terraform.tfvars 
+          echo "prefix = \"camstest\"" >> ./terraform/terraform.tfvars
 
       - name: Build and Deploy with HCL TF
         run: |

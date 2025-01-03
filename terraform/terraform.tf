@@ -6,6 +6,10 @@ terraform {
       version = ">= 4.0.0"
     }
   }
+  backend "gcs" {
+    bucket = "terraform-hcl-gcp-githubactions-state"
+    prefix = "terraform/hcl-${var.prefix}-${var.project_id}"
+  }
 }
 
 provider "google" {

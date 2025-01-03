@@ -8,3 +8,9 @@ variable region {
     type        = string
     default     = "us-central1"
 } 
+
+variable prefix {
+    description = "The prefix to use for all resources"
+    type        = string
+    default     = "test"
+}
