@@ -63,15 +63,16 @@ jobs:
         run: |
           echo "project_id = \"${{ env.PROJECT_ID }}\"" > ./terraform/terraform.tfvars
           echo "region = \"${{ env.PROJECT_REGION }}\"" >> ./terraform/terraform.tfvars 
-        working-directory: ./terraform
+        working-directory: ${{ github.workspace }}/terraform
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: ./terraform
+        working-directory: ${{ github.workspace }}/terraform
 
       - name: Build and Deploy with HCL TF
         run: |
           terraform destroy -var-file=terraform.tfvars --auto-approve
+        working-directory: ${{ github.workspace }}/terraform
 
       - name: Delete Terraform State File
         run: |
