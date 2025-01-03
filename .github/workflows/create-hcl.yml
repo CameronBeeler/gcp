@@ -42,6 +42,7 @@ jobs:
           echo "Extracting project ID from credentials..."
           echo "PROJECT_ID=$(echo '${{ secrets.GCP_KEY }}' | jq -r '.project_id')" >> $GITHUB_ENV
           echo "PROJECT_REGION=us-central1" >> $GITHUB_ENV
+          echo "PREFIX=camstest" >> $GITHUB_ENV
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -57,16 +58,19 @@ jobs:
         run: |
           gcloud services enable cloudresourcemanager.googleapis.com --project='${{ env.PROJECT_ID }}'
           gcloud services enable compute.googleapis.com --project='${{ env.PROJECT_ID }}'
-
-      - name: Initialize Terraform
-        run: terraform init
-        working-directory: ./terraform
+          gcloud services enable storage.googleapis.com --project='${{ env.PROJECT_ID }}'
 
       - name: Configure input variables for Terraform
         run: |
-          echo "project_id = \"${{ env.PROJECT_ID }}\"" > ./terraform/terraform.tfvars
-          echo "region = \"${{ env.PROJECT_REGION }}\"" >> ./terraform/terraform.tfvars 
-          echo "prefix = \"camstest\"" >> ./terraform/terraform.tfvars
+          echo "project_id = \"${{ env.PROJECT_ID }}\"" > terraform.tfvars
+          echo "region = \"${{ env.PROJECT_REGION }}\"" >> terraform.tfvars 
+          echo "bucket = \"terraform-hcl-gcp-githubactions-state\"" >> backend.tfvars
+          echo "prefix = \"hcl-${{env.PREFIX }}-${{ env.PROJECT_ID }}.tfstate\"" >> backend.tfvars
+        working-directory: ./terraform
+
+      - name: Initialize Terraform
+        run: terraform init -backend-config=backend.tfvars
+        working-directory: ./terraform
 
       - name: Apply Terraform
         run: terraform apply -var-file=terraform.tfvars -auto-approve

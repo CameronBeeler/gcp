@@ -41,6 +41,7 @@ jobs:
           echo "Extracting project ID from credentials..."
           echo "PROJECT_ID=$(echo '${{ secrets.GCP_KEY }}' | jq -r '.project_id')" >> $GITHUB_ENV
           echo "PROJECT_REGION=us-central1" >> $GITHUB_ENV
+          echo "PREFIX=camstest" >> $GITHUB_ENV
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -56,6 +57,7 @@ jobs:
         run: |
           gcloud services enable cloudresourcemanager.googleapis.com --project='${{ env.PROJECT_ID }}'
           gcloud services enable compute.googleapis.com --project='${{ env.PROJECT_ID }}'
+          gcloud services enable storage.googleapis.com --project='${{ env.PROJECT_ID }}'
 
       - name: Build and Deploy
         run: |
