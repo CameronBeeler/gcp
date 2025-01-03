@@ -61,6 +61,11 @@ jobs:
         run: terraform init
         working-directory: ./terraform
 
+      - name: Configure input variables for Terraform
+        run: |
+          echo "project_id = \"${{ env.PROJECT_ID }}\"" > ./terraform/terraform.tfvars
+          echo "region = \"${{ env.PROJECT_REGION }}\"" >> ./terraform/terraform.tfvars 
+
       - name: Apply Terraform
-        run: terraform apply -auto-approve
+        run: terraform apply -var-file=terraform.tfvars -auto-approve
         working-directory: ./terraform
