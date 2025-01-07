@@ -60,7 +60,7 @@ resource "google_compute_subnetwork" "public_us_east4_subnet" {
 }
 
 resource "google_compute_firewall" "allow_https_ingress_public" {
-  name    = "allow-https-ingress-us-west1"
+  name    = "allow-https-ingress"
   network = google_compute_network.vpc_network.name
 
   direction = "INGRESS"
@@ -77,7 +77,7 @@ resource "google_compute_firewall" "allow_https_ingress_public" {
 }
 
 resource "google_compute_firewall" "allow_http_ingress_public" {
-  name    = "allow-https-ingress-us-south1"
+  name    = "allow-http-ingress"
   network = google_compute_network.vpc_network.name
 
   direction = "INGRESS"
