@@ -59,14 +59,14 @@ resource "google_compute_subnetwork" "public_us_east4_subnet" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_firewall" "allow_https_ingress_us_west1" {
+resource "google_compute_firewall" "allow_https_ingress_public" {
   name    = "allow-https-ingress-us-west1"
-  network = google_compute_network.custom_vpc.name
+  network = google_compute_network.vpc_network.name
 
   direction = "INGRESS"
   priority  = 1000
 
-  target_tags = ["public-us-west1"]
+  target_tags = ["https-ingress"]
 
   source_ranges = ["0.0.0.0/0"]
 
@@ -76,53 +76,19 @@ resource "google_compute_firewall" "allow_https_ingress_us_west1" {
   }
 }
 
-resource "google_compute_firewall" "allow_https_ingress_us_south1" {
+resource "google_compute_firewall" "allow_http_ingress_public" {
   name    = "allow-https-ingress-us-south1"
-  network = google_compute_network.custom_vpc.name
+  network = google_compute_network.vpc_network.name
 
   direction = "INGRESS"
   priority  = 1000
 
-  target_tags = ["public-us-south1"]
+  target_tags = ["http-ingress"]
 
   source_ranges = ["0.0.0.0/0"]
 
   allow {
     protocol = "tcp"
-    ports    = ["443"]
-  }
-}
-
-resource "google_compute_firewall" "allow_https_ingress_us_central1" {
-  name    = "allow-https-ingress-us-central1"
-  network = google_compute_network.custom_vpc.name
-
-  direction = "INGRESS"
-  priority  = 1000
-
-  target_tags = ["public-us-central1"]
-
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["443"]
-  }
-}
-
-resource "google_compute_firewall" "allow_https_ingress_us_east4" {
-  name    = "allow-https-ingress-us-east4"
-  network = google_compute_network.custom_vpc.name
-
-  direction = "INGRESS"
-  priority  = 1000
-
-  target_tags = ["public-us-east4"]
-
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["443"]
+    ports    = ["80"]
   }
 }
