@@ -92,3 +92,19 @@ resource "google_compute_firewall" "allow_http_ingress_public" {
     ports    = ["80"]
   }
 }
+
+resource "google_compute_firewall" "allow_tcp_vpc" {
+  name    = "allow-tcp-vpc"
+  network = google_compute_network.vpc_network.name
+
+  direction = "INGRESS"
+  priority  = 1000
+
+  source_tags = ["public-resource-tag"]  # Resources with this tag are the source
+  target_tags = ["private-resource-tag"] # Resources with this tag are the target
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]  # Open all TCP ports
+  }
+}
