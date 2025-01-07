@@ -1,6 +1,5 @@
 resource "google_compute_network" "vpc_network" {
   name                    = "vpc-explore-network"
-  internal_ipv6_range = "10.0.0.0/8"
   auto_create_subnetworks = false
 }
 
