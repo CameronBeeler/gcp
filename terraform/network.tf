@@ -59,8 +59,8 @@ resource "google_compute_subnetwork" "public_us_east4_subnet" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_firewall" "allow_ingress_us_west1" {
-  name    = "allow-ingress-us-west1"
+resource "google_compute_firewall" "allow_https_ingress_us_west1" {
+  name    = "allow-https-ingress-us-west1"
   network = google_compute_network.custom_vpc.name
 
   direction = "INGRESS"
@@ -72,12 +72,12 @@ resource "google_compute_firewall" "allow_ingress_us_west1" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["443"]
   }
 }
 
-resource "google_compute_firewall" "allow_ingress_us_south1" {
-  name    = "allow-ingress-us-south1"
+resource "google_compute_firewall" "allow_https_ingress_us_south1" {
+  name    = "allow-https-ingress-us-south1"
   network = google_compute_network.custom_vpc.name
 
   direction = "INGRESS"
@@ -89,12 +89,12 @@ resource "google_compute_firewall" "allow_ingress_us_south1" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["443"]
   }
 }
 
-resource "google_compute_firewall" "allow_ingress_us_central1" {
-  name    = "allow-ingress-us-central1"
+resource "google_compute_firewall" "allow_https_ingress_us_central1" {
+  name    = "allow-https-ingress-us-central1"
   network = google_compute_network.custom_vpc.name
 
   direction = "INGRESS"
@@ -106,12 +106,12 @@ resource "google_compute_firewall" "allow_ingress_us_central1" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["443"]
   }
 }
 
-resource "google_compute_firewall" "allow_ingress_us_east4" {
-  name    = "allow-ingress-us-east4"
+resource "google_compute_firewall" "allow_https_ingress_us_east4" {
+  name    = "allow-https-ingress-us-east4"
   network = google_compute_network.custom_vpc.name
 
   direction = "INGRESS"
@@ -123,6 +123,6 @@ resource "google_compute_firewall" "allow_ingress_us_east4" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["443"]
   }
 }
