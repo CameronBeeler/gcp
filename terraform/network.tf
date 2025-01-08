@@ -108,3 +108,18 @@ resource "google_compute_firewall" "allow_tcp_vpc" {
     ports    = ["0-65535"]  # Open all TCP ports
   }
 }
+
+resource "google_compute_firewall" "allow_icmp_all" {
+  name    = "allow-icmp-all"
+  network = google_compute_network.vpc_network.name
+
+  direction = "INGRESS"
+  priority  = 65535
+
+  source_ranges = ["0.0.0.0/0"]  # all from the internet
+  target_tags = ["public-resource-tag"] # Resources with this tag are the target
+
+  allow {
+    protocol = "icmp"
+  }
+}
