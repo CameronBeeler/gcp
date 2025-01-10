@@ -1,3 +1,12 @@
+variable environment {
+    description = "The environment to deploy resources"
+    type        = string
+}
+
+variable project_name {
+    description = "The project name to deploy resources"
+    type        = string
+}
 variable project_id {
     description = "The project ID to deploy resources"
     type        = string
