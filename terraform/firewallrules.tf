@@ -22,8 +22,8 @@ resource "google_compute_firewall" "allow_internal_ingress_public" {
   source_ranges = ["10.128.0.0/9"]
 
   allow {
-    protocol = "any" 
-    ports    = "any"
+    protocol = "all" 
+    ports    = ["all"]
   }
 }
 
@@ -53,6 +53,6 @@ resource "google_compute_firewall" "allow_ssh_ingress_public" {
 
   allow {
     protocol = "tcp"
-    ports    = "22"
+    ports    = ["22"]
   }
 }
