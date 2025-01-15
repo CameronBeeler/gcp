@@ -10,7 +10,7 @@ resource "google_compute_router" "nat_router_us_central1" {
   network = google_compute_network.vpc_network.self_link
 }
 resource "google_compute_router_nat" "nat_gateway" {
-  name                       = "NAT-gateway-${var.environment}"
+  name                       = "nat-gateway-${var.environment}"
   router                     = google_compute_router.nat_router_us_central1.name
   region                     = google_compute_router.nat_router_us_central1.region
   nat_ip_allocate_option     = "AUTO_ONLY" # Automatically allocate external IP
