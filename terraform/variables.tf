@@ -1,11 +1,13 @@
 variable environment {
     description = "The environment to deploy resources"
     type        = string
+    default     = "dev"
 }
 
 variable project_name {
     description = "The project name to deploy resources"
     type        = string
+    default = "337"
 }
 
 variable project_id {
