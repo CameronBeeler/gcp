@@ -23,7 +23,6 @@ resource "google_compute_firewall" "allow_internal_ingress_public" {
 
   allow {
     protocol = "all" 
-    ports    = ["all"]
   }
 }
 
