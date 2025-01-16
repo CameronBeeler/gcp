@@ -14,6 +14,13 @@ resource "google_project_service" "service_networking" {
   # Optionally wait for the API activation to propagate
   disable_on_destroy = false
 }
+resource "google_project_service" "sqladmin_networking" {
+  project    =  data.google_project.current.project_id
+  service = "sqladmin.googleapis.com"
+
+  # Optionally wait for the API activation to propagate
+  disable_on_destroy = false
+}
 resource "google_service_networking_connection" "private_service_access_service_networking" {
   depends_on               = [google_project_service.service_networking]
   network                  = google_compute_network.vpc_network.self_link
