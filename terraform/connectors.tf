@@ -14,9 +14,16 @@ resource "google_project_service" "service_networking" {
   # Optionally wait for the API activation to propagate
   disable_on_destroy = false
 }
-resource "google_service_networking_connection" "private_service_access" {
+resource "google_service_networking_connection" "private_service_access_service_networking" {
   depends_on               = [google_project_service.service_networking]
   network                  = google_compute_network.vpc_network.self_link
   service                  = "servicenetworking.googleapis.com"
+  reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
+}
+
+resource "google_service_networking_connection" "private_service_access_cloudsql" {
+  depends_on               = [google_project_service.service_networking]
+  network                  = google_compute_network.vpc_network.self_link
+  service                  = "cloudsql-postgres-googleapis-com"
   reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
 }
