@@ -27,10 +27,3 @@ resource "google_service_networking_connection" "private_service_access_service_
   service                  = "servicenetworking.googleapis.com"
   reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
 }
-
-resource "google_service_networking_connection" "private_service_access_cloudsql" {
-  depends_on               = [google_project_service.service_networking]
-  network                  = google_compute_network.vpc_network.self_link
-  service                  = "cloudsql-postgres-googleapis-com"
-  reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
-}
