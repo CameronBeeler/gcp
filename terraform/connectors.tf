@@ -8,7 +8,7 @@ resource "google_compute_global_address" "google_managed_services_range" {
 }
 # Network Access channels
 resource "google_project_service" "service_networking" {
-  project    =  data.google_project.current.project_id
+  project    =  data.google_project.current.${var.project_number}
   service    =  "servicenetworking.googleapis.com"
 
   # Optionally wait for the API activation to propagate
