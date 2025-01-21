@@ -33,21 +33,23 @@ resource "google_project_service" "serverless_vpc_access" {
 }
 
 resource "google_vpc_access_connector" "functions_connector" {
-  name         = "functions-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
+  max_throughput = 400  # Specify throughput in Mbps
+  # name         = "functions-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
+  name         = "functions-usc1-staging"
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
-  max_throughput = 400  # Specify throughput in Mbps
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
 
 resource "google_vpc_access_connector" "infra_connector" {
-  name         = "vpc-infra-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
-  region       = var.region
-  network      = google_compute_network.vpc_network.name
-  ip_cidr_range = "10.9.0.0/28" # IP range for connector traffic
   max_throughput = 400  # Specify throughput in Mbps
+  # name           = "vpc-infra-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
+  name           = "vpc-infra-usc1-staging"
+  region         = var.region
+  network        = google_compute_network.vpc_network.name
+  ip_cidr_range  = "10.9.0.0/28" # IP range for connector traffic
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
