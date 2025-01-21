@@ -7,12 +7,13 @@ variable environment {
 variable project_name {
     description = "The project name to deploy resources"
     type        = string
-    default = "337"
+    default = "VPC-Build-project"
 }
 
 variable project_id {
     description = "The project ID to deploy resources"
     type        = string
+    default    = "sonorous-pact-445620-m2"
 } 
 
 variable region {

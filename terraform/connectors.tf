@@ -14,15 +14,6 @@ resource "google_project_service" "service_networking" {
   # Optionally wait for the API activation to propagate
   disable_on_destroy = false
 }
-
-resource "google_project_service" "sqladmin_networking" {
-  project    =  data.google_project.current.project_id
-  service    = "sqladmin.googleapis.com"
-
-  # Optionally wait for the API activation to propagate
-  disable_on_destroy = false
-}
-
 resource "google_service_networking_connection" "private_service_access_service_networking" {
   network                  = google_compute_network.vpc_network.self_link
   service                  = "servicenetworking.googleapis.com"
@@ -31,12 +22,20 @@ resource "google_service_networking_connection" "private_service_access_service_
   depends_on               = [google_project_service.service_networking]
 }
 
+resource "google_project_service" "cloud_sql_api" {
+  project    =  var.project_id
+  service = "sqladmin.googleapis.com"
+
+  # Optionally wait for the API activation to propagate
+  disable_on_destroy = false
+}
+
 resource "google_service_networking_connection" "private_service_access_sqladmin_networking" {
   network                  = google_compute_network.vpc_network.self_link
   service                  = "sqladmin.googleapis.com"
   reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
 
-  depends_on               = [google_project_service.sqladmin_networking]
+  depends_on               = [google_project_service.cloud_sql_api]
 }
 
 # Add a connector for serverless access from GCP Public to the VPC.
@@ -54,7 +53,7 @@ resource "google_vpc_access_connector" "functions_connector" {
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
-  max_throughput = 300  # Specify throughput in Mbps
+  max_throughput = "400"  # Specify throughput in Mbps
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
@@ -64,7 +63,7 @@ resource "google_vpc_access_connector" "infra_connector" {
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.9.0.0/28" # IP range for connector traffic
-  max_throughput = 300  # Specify throughput in Mbps
+  max_throughput = "400"  # Specify throughput in Mbps
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
