@@ -43,7 +43,7 @@ resource "google_project_service" "serverless_vpc_access" {
 # Add a connector for serverless access from GCP Public to the VPC.
 ## NOTE:  Network peering for the two service connections?  SQL at least.
 resource "google_vpc_access_connector" "functions_connector" {
-  name         = "func-${substr(var.region, 0,11)}-${substr(var.environment, 0,6)}"
+  name         = "functions-${var.region_abbreviations["var.region"]}-${substr(var.environment, 0,8)}"
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
@@ -52,7 +52,7 @@ resource "google_vpc_access_connector" "functions_connector" {
 }
 
 resource "google_vpc_access_connector" "infra_connector" {
-  name         = "vpc-${substr(var.region, 0,11)}-${substr(var.environment, 0,6)}"
+  name         = "vpc-infra-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.9.0.0/28" # IP range for connector traffic
