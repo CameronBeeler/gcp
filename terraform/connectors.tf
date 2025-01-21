@@ -38,7 +38,8 @@ resource "google_vpc_access_connector" "functions_connector" {
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
-  max_throughput = 400  # Specify throughput in Mbps
+  min_instances = 1
+  max_instances = 3
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
@@ -49,7 +50,8 @@ resource "google_vpc_access_connector" "infra_connector" {
   region         = var.region
   network        = google_compute_network.vpc_network.name
   ip_cidr_range  = "10.9.0.0/28" # IP range for connector traffic
-  max_throughput = 400  # Specify throughput in Mbps
+  min_instances = 1
+  max_instances = 3
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
