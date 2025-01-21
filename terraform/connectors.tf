@@ -27,3 +27,20 @@ resource "google_service_networking_connection" "private_service_access_service_
   service                  = "servicenetworking.googleapis.com"
   reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
 }
+
+## NOTE
+# Add a connector for serverless access from GCP Public to the VPC.
+## NOTE:  Network peering for the two service connections?  SQL at least.
+resource "google_vpc_access_connector" "connector_1" {
+  name         = "cloud-functions-${var.environment}"
+  region       = var.region
+  network      = google_compute_network.vpc_network.name
+  ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
+}
+
+resource "google_vpc_access_connector" "connector_2" {
+  name         = "fd-infra-vpc-connector-${var.environment}"
+  region       = var.region
+  network      = google_compute_network.vpc_network.name
+  ip_cidr_range = "10.9.0.0/28" # IP range for connector traffic
+}
