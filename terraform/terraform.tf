@@ -10,8 +10,11 @@ terraform {
     }
   }
   required_version = "~> 1.10.4"
+  backend "gcs" {
+    bucket = "terraform-gcp-githubactions-state"
+    prefix = "hcl-sonorous-pact-445620-m2"
+  }
 }
-
 provider "google" {
   project = var.project_id
   region  = var.region
