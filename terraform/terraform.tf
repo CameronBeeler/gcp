@@ -12,7 +12,7 @@ terraform {
   required_version = "~> 1.10.4"
   backend "gcs" {
     bucket = "terraform-gcp-githubactions-state"
-    prefix = "hcl-sonorous-pact-445620-m2-${var.environment}"
+    prefix = "hcl-sonorous-pact-445620-m2-staging"
   }
 }
 provider "google" {
