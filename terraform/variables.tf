@@ -39,3 +39,40 @@ variable "region_abbreviations" {
     "us-west4"        = "usw4"
   }
 }
+
+variable "firewall_rules" {
+  default = {
+    allow_icmp_ingress_public = {
+      name           = "allow-icmp-public-${var.environment}"
+      direction      = "INGRESS"
+      priority       = 65534
+      source_ranges  = ["0.0.0.0/0"]
+      protocol       = "icmp"
+      ports          = []
+    }
+    allow_internal_ingress_public = {
+      name           = "allow-all-internal-${var.environment}"
+      direction      = "INGRESS"
+      priority       = 65534
+      source_ranges  = ["10.128.0.0/9"]
+      protocol       = "all"
+      ports          = []
+    }
+    allow_rdp_ingress_public = {
+      name           = "allow-rdp-public-${var.environment}"
+      direction      = "INGRESS"
+      priority       = 65534
+      source_ranges  = ["0.0.0.0/0"]
+      protocol       = "tcp"
+      ports          = ["3389"]
+    }
+    allow_ssh_ingress_public = {
+      name           = "allow-ssh-public-${var.environment}"
+      direction      = "INGRESS"
+      priority       = 65534
+      source_ranges  = ["0.0.0.0/0"]
+      protocol       = "tcp"
+      ports          = ["22"]
+    }
+  }
+}

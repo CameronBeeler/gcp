@@ -1,57 +1,17 @@
-resource "google_compute_firewall" "allow_icmp_ingress_public" {
-  name    = "allow-icmp-ingress-public-${var.environment}"
+
+resource "google_compute_firewall" "firewall_rules" {
+  for_each = var.firewall_rules
+
+  name    = each.value.name
   network = google_compute_network.vpc_network.name
 
-  direction = "INGRESS"
-  priority  = 65534
+  direction = each.value.direction
+  priority  = each.value.priority
 
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "icmp"
-  }
-}
-
-resource "google_compute_firewall" "allow_internal_ingress_public" {
-  name    = "allow-all-ingress-internal-${var.environment}"
-  network = google_compute_network.vpc_network.name
-
-  direction = "INGRESS"
-  priority  = 65534
-
-  source_ranges = ["10.128.0.0/9"]
+  source_ranges = each.value.source_ranges
 
   allow {
-    protocol = "all" 
-  }
-}
-
-resource "google_compute_firewall" "allow_rdp_ingress_public" {
-  name    = "allow-rdp-ingress-public-${var.environment}"
-  network = google_compute_network.vpc_network.name
-
-  direction = "INGRESS"
-  priority  = 65534
-
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["3389"]
-  }
-}
-
-resource "google_compute_firewall" "allow_ssh_ingress_public" {
-  name    = "allow-ssh-ingress-public-${var.environment}"
-  network = google_compute_network.vpc_network.name
-
-  direction = "INGRESS"
-  priority  = 65534
-
-  source_ranges = ["0.0.0.0/0"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
+    protocol = each.value.protocol
+    ports    = each.value.ports
   }
 }
