@@ -1,7 +1,7 @@
 locals {
   firewall_rules = {
     allow_internal_ingress_public = {
-      name           = "allow-all-ingress-internal-${var.environment}"
+      name           = "allow-all-internal-${var.environment}"
       direction      = "INGRESS"
       priority       = 65534
       source_ranges  = ["10.128.0.0/9"]
