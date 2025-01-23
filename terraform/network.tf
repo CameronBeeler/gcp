@@ -7,7 +7,7 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_router" "nat_router_us_central1" {
   name    = "nat-router-${var.environment}"
   region  = "us-central1" # Specify the region of the subnets requiring NAT
-  network = google_compute_network.vpc_network.self_link
+  network = google_compute_network.vpc_network[each.key].self_link
 }
 resource "google_compute_router_nat" "nat_gateway" {
   name                               = "nat-gateway-${var.environment}"
@@ -27,6 +27,6 @@ resource "google_compute_subnetwork" "us_central1_subnet" {
   name                     = "${each.value.name}-${var.environment}"
   ip_cidr_range            = each.value.ip_cidr_range
   region                   = each.value.region
-  network                  = google_compute_network.vpc_network.id
+  network                  = google_compute_network.vpc_network[each.key].id
   private_ip_google_access = each.value.private_ip_google_access
 }
