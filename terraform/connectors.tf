@@ -1,17 +1,21 @@
 resource "google_compute_global_address" "google_managed_services_range" {
-  name          = "google-managed-services-reserved-cidr-${var.environment}"
+  for_each     = google_compute_network.vpc_network
+
+  name          = "google-managed-services-reserved-cidr-key${each.key}-${var.environment}"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 20  # Adjust based on your requirements
-  network       = google_compute_network.vpc_network[each.key].self_link
+  network       = each.value.self_link
   description   = "Dynamically allocated IP Range for peer service connection networks."
 }
 
 # Network Access channels
 resource "google_service_networking_connection" "private_service_access_service_networking" {
-  network                  = google_compute_network.vpc_network[each.key].self_link
+  for_each = google_compute_network.vpc_network
+
+  network                  = each.value.self_link
   service                  = "servicenetworking.googleapis.com"
-  reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
+  reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range[each.key].name]
 }
 
 # Add a connector for serverless access from GCP Public to the VPC.

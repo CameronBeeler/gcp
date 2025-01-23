@@ -7,14 +7,18 @@ resource "google_compute_network" "vpc_network" {
 
 # NAT gateway
 resource "google_compute_router" "nat_router_us_central1" {
-  name    = "nat-router-${var.environment}"
+  for_each = google_compute_network.vpc_network
+
+  name    = "nat-router-key${each.key}-${var.environment}"
   region  = "us-central1" # Specify the region of the subnets requiring NAT
-  network = google_compute_network.vpc_network[each.key].self_link
+  network = each.value.self_link
 }
 resource "google_compute_router_nat" "nat_gateway" {
-  name                               = "nat-gateway-${var.environment}"
-  router                             = google_compute_router.nat_router_us_central1.name
-  region                             = google_compute_router.nat_router_us_central1.region
+  for_each = google_compute_network.vpc_network
+
+  name                               = "nat-gateway-key${each.key}-${var.environment}"
+  router                             = google_compute_router.nat_router_us_central1[each.key].name
+  region                             = google_compute_router.nat_router_us_central1[each.key].region
   nat_ip_allocate_option             = "AUTO_ONLY" # Automatically allocate external IP
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   log_config {
