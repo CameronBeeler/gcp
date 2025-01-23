@@ -8,6 +8,10 @@ variable environment {
 variable "networks" {
   description = "complex resource data elements"
   type = map(object({
+    vpc_network        = map(object({
+        name                     = "fd-network"
+        auto_create_subnetworks  = false 
+    }))
     subnets            = map(object({
       name                     = string
       ip_cidr_range            = string

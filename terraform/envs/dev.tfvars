@@ -5,6 +5,10 @@ project = "fd-${var.environment}-vpc"
 
 networks = {
     fd-network = {
+        vpc_network = {
+            name                     = "fd-network"
+            auto_create_subnetworks  = false 
+        },
         subnets = {
             fd-subnetwork = {
                 name                      = "us-central1-subnet"
