@@ -76,4 +76,4 @@ jobs:
 
       - name: Delete Terraform State File
         run: |
-          gsutil rm -r gs://terraform-gcp-githubactions-state/hcl-${{ env.PROJECT_ID }}
+          gsutil -m rm -r gs://terraform-gcp-githubactions-state/hcl-sonorous-pact-445620-m2-staging/
