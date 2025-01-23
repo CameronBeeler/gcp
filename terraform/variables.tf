@@ -25,6 +25,7 @@ variable "networks" {
     access_connectors  = map(object({
       name_prefix    = string
       cidr           = string
+      region         = string
       min_throughput = number
       max_throughput = number
     }))

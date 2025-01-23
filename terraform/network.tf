@@ -22,7 +22,7 @@ resource "google_compute_router_nat" "nat_gateway" {
 }
 # Subnet configurations
 resource "google_compute_subnetwork" "us_central1_subnet" {
-  for_each                 = networks["fd_network"].subnets
+  for_each                 = var.networks["fd_network"].subnets
 
   name                     = "${each.value.name}-${var.environment}"
   ip_cidr_range            = each.value.ip_cidr_range
