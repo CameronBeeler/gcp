@@ -1,8 +1,6 @@
 resource "google_compute_network" "vpc_network" {
   name                    = "fd-network-${var.environment}"
   auto_create_subnetworks = false
-
-  depends_on = [ google_project_service.compute_api ]
 }
 
 # NAT gateway
