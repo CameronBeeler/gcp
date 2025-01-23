@@ -1,3 +1,16 @@
+locals{
+  # Define the abbreviations for the regions
+  region_abbreviations = {
+    "us-central1"     = "usc1"
+    "us-east1"        = "use1"
+    "us-east4"        = "use4"
+    "us-west1"        = "usw1"
+    "us-west2"        = "usw2"
+    "us-west3"        = "usw3"
+    "us-west4"        = "usw4"
+  }[var.region]
+}
+
 resource "google_compute_global_address" "google_managed_services_range" {
   name          = "google-managed-services-reserved-cidr-${var.environment}"
   purpose       = "VPC_PEERING"
@@ -33,8 +46,7 @@ resource "google_project_service" "serverless_vpc_access" {
 }
 
 resource "google_vpc_access_connector" "functions_connector" {
-  # name         = "functions-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
-  name         = "functions-usc1-staging"
+  name         = "functions-${local.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
   region       = var.region
   network      = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28" # IP range for connector traffic
@@ -45,8 +57,7 @@ resource "google_vpc_access_connector" "functions_connector" {
 }
 
 resource "google_vpc_access_connector" "infra_connector" {
-  # name           = "vpc-infra-${var.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
-  name           = "vpc-infra-usc1-staging"
+  name           = "vpc-infra-${local.region_abbreviations["${var.region}"]}-${substr(var.environment, 0,8)}"
   region         = var.region
   network        = google_compute_network.vpc_network.name
   ip_cidr_range  = "10.9.0.0/28" # IP range for connector traffic
@@ -55,16 +66,3 @@ resource "google_vpc_access_connector" "infra_connector" {
 
   depends_on = [google_project_service.serverless_vpc_access]
 }
-
-# resource "google_project_service" "cloud_sql_api" {
-#   project    =  var.project_id
-#   service = "sqladmin.googleapis.com"
-#   # Optionally wait for the API activation to propagate
-#   disable_on_destroy = false
-# }
-# resource "google_service_networking_connection" "private_service_access_sqladmin_networking" {
-#   network                  = google_compute_network.vpc_network.self_link
-#   service                  = "sqladmin.googleapis.com"
-#   reserved_peering_ranges  = [google_compute_global_address.google_managed_services_range.name]
-#   depends_on               = [google_project_service.cloud_sql_api]
-# }
