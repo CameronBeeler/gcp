@@ -17,7 +17,7 @@ resource "google_service_networking_connection" "private_service_access_service_
 # Add a connector for serverless access from GCP Public to the VPC.
 ## NOTE:  Network peering for the two service connections?  SQL at least.
 resource "google_vpc_access_connector" "connectors" {
-  for_each      = local.vpc_access_connectors
+  for_each      = networks.fd_network.access_connectors
   name          = "${each.value.name_prefix}-${local.region_abbreviations}-${substr(var.environment, 0, 8)}" # name is <= 23 bytes max
   region        = var.region
   network       = google_compute_network.vpc_network.name

@@ -71,5 +71,5 @@ jobs:
         working-directory: ${{ github.workspace }}/terraform
 
       - name: Apply Terraform
-        run: terraform apply -var-file=terraform.tfvars -auto-approve
+        run: terraform apply -var-file=terraform.tfvars -var-file=envs/dev.tfvars -auto-approve
         working-directory: ${{ github.workspace }}/terraform
