@@ -1,5 +1,7 @@
 resource "google_compute_network" "vpc_network" {
-  name                    = "fd-network-${var.environment}"
+  for_each = var.networks["fd-network"].vpc_network
+
+  name                    = "${each.value.name}-${var.environment}"
   auto_create_subnetworks = false
 }
 
