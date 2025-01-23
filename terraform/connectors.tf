@@ -20,7 +20,7 @@ resource "google_vpc_access_connector" "connectors" {
   for_each      = var.networks["fd-network"].access_connectors
 
   name          = "${each.value.name_prefix}-${local.region_abbreviations}-${substr(var.environment, 0, 8)}" # name is <= 23 bytes max
-  region        = var.region
+  region        = each.value.region
   network       = google_compute_network.vpc_network.name
   ip_cidr_range = each.value.ip_cidr_range
   min_throughput = each.value.min_throughput
