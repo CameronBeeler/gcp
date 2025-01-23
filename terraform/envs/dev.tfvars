@@ -26,15 +26,15 @@ networks = {
         access_connectors = {
             functions = {
                 name_prefix    = "functions"
-                cidr           = "10.8.0.0/28"
-                region        = "us-central1"
+                ip_cidr_range  = "10.8.0.0/28"
+                region         = "us-central1"
                 min_throughput = 200
                 max_throughput = 1000
             },
             infra = {
                 name_prefix    = "fd-infra"
-                cidr           = "10.9.0.0/28"
-                region        = "us-central1"
+                ip_cidr_range  = "10.9.0.0/28"
+                region         = "us-central1"
                 min_throughput = 200
                 max_throughput = 1000
             }
