@@ -4,6 +4,33 @@ variable environment {
     default     = "staging"
 }
 
+
+variable "networks" {
+  description = "complex resource data elements"
+  type = map(object({
+    subnets            = map(object({
+      name                     = string
+      ip_cidr_range            = string
+      region                   = string
+      private_ip_google_access = bool
+    }))
+    firewall_rules     = map(object({
+      name          = string
+      direction     = string
+      priority      = number
+      source_ranges = list(string)
+      protocol      = string
+      ports         = list(string)
+    }))
+    access_connectors  = map(object({
+      name_prefix    = string
+      cidr           = string
+      min_throughput = number
+      max_throughput = number
+    }))
+  }))
+}
+
 variable project_name {
     description = "The project name to deploy resources"
     type        = string

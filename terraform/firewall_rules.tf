@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "firewall_rules" {
-  for_each = networks.fd_network.firewall_rules
+  for_each = networks["fd_network"].firewall_rules
 
   name    = "${each.value.name}-${var.environment}"
   network = google_compute_network.vpc_network.name

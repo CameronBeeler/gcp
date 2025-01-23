@@ -7,12 +7,15 @@ networks = {
     fd-network = {
         subnets = {
             fd-subnetwork = {
-                cidr = "10.128.0.0/20"
+                name                      = "us-central1-subnet"
+                ip_cidr_range             = "10.128.0.0/20"
+                region                    = "us-central1"
+                private_ip_google_access  = true
             }
         },
         firewall_rules = {
             allow_internal_ingress_public = {
-                name           = "allow-all-ingress-internal-${var.environment}"
+                name           = "allow-all-ingress-internal"
                 direction      = "INGRESS"
                 priority       = 65534
                 source_ranges  = ["10.128.0.0/9"]
@@ -23,14 +26,14 @@ networks = {
         access_connectors = {
             functions = {
                 name_prefix   = "functions"
-                cidr = "10.8.0.0/28",
-                min_throughput = 200,
+                cidr = "10.8.0.0/28"
+                min_throughput = 200
                 max_throughput = 1000
             },
             infra = {
                 name_prefix   = "fd-infra"
-                cidr = "10.9.0.0/28",
-                min_throughput = 200,
+                cidr = "10.9.0.0/28"
+                min_throughput = 200
                 max_throughput = 1000
             }
         }
