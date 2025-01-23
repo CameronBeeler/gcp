@@ -71,7 +71,7 @@ jobs:
 
       - name: Build and Deploy with HCL TF
         run: |
-          terraform destroy -var-file=terraform.tfvars -var-file=dev.tfvars --auto-approve
+          terraform destroy -var-file=terraform.tfvars -var-file=envs/dev.tfvars --auto-approve
         working-directory: ${{ github.workspace }}/terraform
 
       - name: Delete Terraform State File
