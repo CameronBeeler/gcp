@@ -8,7 +8,7 @@ variable environment {
 variable "networks" {
   description = "complex resource data elements"
   type = map(object({
-    vpc_network        = map(object({
+    vpc                = map(object({
         name                     = string
         auto_create_subnetworks  = bool
     }))
