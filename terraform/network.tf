@@ -7,7 +7,7 @@ resource "google_compute_network" "vpc_network" {
 
 # NAT gateway
 resource "google_compute_router" "nat_router_us_central1" {
-  for_each = google_compute_network.vpc_network
+  for_each = google_compute_network.vpc
 
   name    = "nat-router-key${each.key}-${var.environment}"
   region  = "us-central1" # Specify the region of the subnets requiring NAT
