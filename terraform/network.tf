@@ -1,5 +1,5 @@
 resource "google_compute_network" "vpc_network" {
-  name                    = "fd_network-${var.environment}"
+  name                    = "fd-network-${var.environment}"
   auto_create_subnetworks = false
 }
 
