@@ -1,24 +1,18 @@
 resource "google_compute_network" "vpc_network" {
-  for_each = var.networks["fd-network"].vpc
-
   name                    = "${each.value.name}-${var.environment}"
   auto_create_subnetworks = false
 }
 
 # NAT gateway
 resource "google_compute_router" "nat_router_us_central1" {
-  for_each = google_compute_network.vpc_network
-
-  name    = "nat-router-key${each.key}-${var.environment}"
+  name    = "nat-router-${var.environment}"
   region  = "us-central1" # Specify the region of the subnets requiring NAT
-  network = each.value.self_link
+  network = google_compute_network.vpc_network.self_link
 }
 resource "google_compute_router_nat" "nat_gateway" {
-  for_each = google_compute_network.vpc_network
-
-  name                               = "nat-gateway-key${each.key}-${var.environment}"
-  router                             = google_compute_router.nat_router_us_central1[each.key].name
-  region                             = google_compute_router.nat_router_us_central1[each.key].region
+  name                               = "nat-gateway-${var.environment}"
+  router                             = google_compute_router.nat_router_us_central1.name
+  region                             = google_compute_router.nat_router_us_central1.region
   nat_ip_allocate_option             = "AUTO_ONLY" # Automatically allocate external IP
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   log_config {
@@ -33,6 +27,6 @@ resource "google_compute_subnetwork" "us_central1_subnet" {
   name                     = "${each.value.name}-${var.environment}"
   ip_cidr_range            = each.value.ip_cidr_range
   region                   = each.value.region
-  network                  = google_compute_network.vpc_network[each.key].id
+  network                  = google_compute_network.vpc_network.id
   private_ip_google_access = each.value.private_ip_google_access
 }
