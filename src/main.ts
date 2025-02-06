@@ -3,18 +3,12 @@ import { GoogleProvider } from "@cdktf/provider-google/lib/provider";
 import { ComputeNetwork } from "@cdktf/provider-google/lib/compute-network"
 import {ComputeSubnetwork } from "@cdktf/provider-google/lib/compute-subnetwork"
 import { ComputeFirewall } from "@cdktf/provider-google/lib/compute-firewall"
-import * as fs from 'fs';
-import * as path from 'path';
-import * as yaml from 'js-yaml'; // Use `npm install js-yaml` to install this
+import { getResourceDeployLabels } from 'src/utils'
 
+const env = 'dev';
 // Read and parse YAML configuration
-const args = process.argv.slice(2);
-const env = args.includes('--env') ? args[args.indexOf('--env') + 1] : 'dev';
-
-const configPath = path.resolve(__dirname, 'deployment-config.yaml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf-8')) as any;
-
-const resourcesToDeploy = config.environments[env]?.deploy_resources;
+const resourceListToDeploy = getResourceDeployLabels();
+const resourcesToDeploy = resourceListToDeploy.environments[env]?.deploy_resources;
 
 // import { TerraformOutput } from "cdktf";
 
@@ -41,9 +35,9 @@ class MyNetworkStack extends TerraformStack {
 
     let vpcNetwork: ComputeNetwork | undefined;
 
-    if (resourcesToDeploy.includes('VPC')) {
+    if (resourcesToDeploy.Infrastructure.includes('VPC')) {
     // Create VPC Network
-      const vpcNetwork = new ComputeNetwork(this, "MyVpc", {
+      vpcNetwork = new ComputeNetwork(this, "MyVpc", {
         name: "my-vpc-network",
         autoCreateSubnetworks: false, // Manual subnet creation
       });
@@ -63,7 +57,7 @@ class MyNetworkStack extends TerraformStack {
 
     let firewallRule: ComputeFirewall | undefined;
 
-    if (resourcesToDeploy?.Infrastructure?.includes('Firewall') && vpcNetwork) {
+    if (resourcesToDeploy.Infrastructure.includes('Subnet') && vpcNetwork) {
       firewallRule = new ComputeFirewall(this, "MyFirewall", {
         name: "my-firewall",
         network: vpcNetwork.selfLink,

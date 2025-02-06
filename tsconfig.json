@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@stacks/*": ["src/stacks/*"]
+    },
     "alwaysStrict": true,
     "declaration": true,
     "experimentalDecorators": true,
