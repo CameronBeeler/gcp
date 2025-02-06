@@ -61,6 +61,5 @@ jobs:
 
       - name: Build and Deploy
         run: |
-          cd src
           npm run build
           cdktf deploy --auto-approve
