@@ -43,11 +43,10 @@ class MyNetworkStack extends TerraformStack {
       });
     }
 
-    let vpcSubnet: ComputeSubnetwork | undefined;
 
-    if (resourcesToDeploy.includes('Subnet') && vpcNetwork) {
+    if (resourcesToDeploy.Infrastructure.includes('Subnet') && vpcNetwork) {
     // Create Subnet
-      vpcSubnet = new ComputeSubnetwork(this, "MySubnet", {
+      new ComputeSubnetwork(this, "MySubnet", {
         name: "my-vpc-subnet",
         ipCidrRange: "10.0.1.0/24",  // Replace with your desired CIDR
         network: vpcNetwork.selfLink,      // Link to VPC
@@ -55,10 +54,9 @@ class MyNetworkStack extends TerraformStack {
       });
     }
 
-    let firewallRule: ComputeFirewall | undefined;
 
-    if (resourcesToDeploy.Infrastructure.includes('Subnet') && vpcNetwork) {
-      firewallRule = new ComputeFirewall(this, "MyFirewall", {
+    if (resourcesToDeploy.testing.includes('Firewalls') && vpcNetwork) {
+      new ComputeFirewall(this, "MyFirewall", {
         name: "my-firewall",
         network: vpcNetwork.selfLink,
         allow: [{ protocol: "tcp", ports: ["22", "80", "443"] }],
