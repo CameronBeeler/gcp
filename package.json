@@ -1,8 +1,8 @@
 {
   "name": "MyNetworkStack",
   "version": "1.0.0",
-  "main": "main.js",
-  "types": "main.ts",
+  "main": "src/main.js",
+  "types": "src/types",
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
